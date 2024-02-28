@@ -22,7 +22,8 @@ def main():
     # Plot histogram
     st.subheader("Histogram of Random Data")
     num_bins = st.slider("Number of Bins", min_value=5, max_value=50, value=20)
-    plot_histogram(df, num_bins)
+    fig, ax = plot_histogram(df, num_bins)
+    st.pyplot(fig)  # Pass the figure explicitly to st.pyplot()
     
     # Generate random numbers
     st.subheader("Generate Random Numbers")
@@ -44,12 +45,12 @@ def generate_sample_data():
 
 def plot_histogram(df, num_bins):
     # Plot histogram
-    plt.figure(figsize=(8, 6))
-    sns.histplot(df["Value"], bins=num_bins, kde=True)
-    plt.xlabel("Value")
-    plt.ylabel("Frequency")
-    plt.title("Histogram of Random Data")
-    st.pyplot()
+    fig, ax = plt.subplots(figsize=(8, 6))
+    sns.histplot(df["Value"], bins=num_bins, kde=True, ax=ax)
+    ax.set_xlabel("Value")
+    ax.set_ylabel("Frequency")
+    ax.set_title("Histogram of Random Data")
+    return fig, ax  # Return the figure and axes objects
 
 def generate_random_data(num_points, min_value, max_value):
     # Generate random data
